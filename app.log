@@ -1,0 +1,16 @@
+2025-12-09 14:42:25 WARNING:  * Debugger is active!
+2025-12-09 14:42:25 INFO:  * Debugger PIN: 311-216-754
+2025-12-09 14:42:25 WARNING:  * Debugger is active!
+2025-12-09 14:42:25 INFO:  * Debugger PIN: 311-216-754
+2025-12-09 14:42:53 INFO:  * Detected change in '/home/user/github-stats/main.py', reloading
+2025-12-09 14:42:54 INFO:  * Detected change in '/home/user/github-stats/main.py', reloading
+2025-12-09 14:43:19,825 INFO: Received request for top-langs for username: Domisnnet with theme: onedark [in /home/user/github-stats/main.py:265]
+2025-12-09 14:43:19,826 INFO: Fetching repos for languages from: https://api.github.com/users/Domisnnet/repos?per_page=100&type=owner [in /home/user/github-stats/main.py:147]
+2025-12-09 14:43:19,832 INFO: Received request for stats for username: Domisnnet with theme: onedark [in /home/user/github-stats/main.py:246]
+2025-12-09 14:43:19,838 INFO: Fetching user data from: https://api.github.com/users/Domisnnet [in /home/user/github-stats/main.py:78]
+2025-12-09 14:43:19,979 INFO: User data response status: 403 [in /home/user/github-stats/main.py:80]
+2025-12-09 14:43:19,979 ERROR: Error fetching GitHub data: 403 Client Error: rate limit exceeded for url: https://api.github.com/users/Domisnnet [in /home/user/github-stats/main.py:106]
+2025-12-09 14:43:20,251 INFO: Repos for languages response status: 200 [in /home/user/github-stats/main.py:149]
+2025-12-09 14:43:20,254 INFO: Fetching language data from: https://api.github.com/repos/Domisnnet/AI-analise-de-credito/languages [in /home/user/github-stats/main.py:158]
+2025-12-09 14:43:20,368 INFO: Language data response status: 403 for repo AI-analise-de-credito [in /home/user/github-stats/main.py:160]
+2025-12-09 14:43:20,369 ERROR: Error fetching top languages: 403 Client Error: rate limit exceeded for url: https://api.github.com/repos/Domisnnet/AI-analise-de-credito/languages [in /home/user/github-stats/main.py:168]

@@ -2,15 +2,19 @@ import os
 import math
 import requests
 import logging
+from logging.handlers import RotatingFileHandler
 from collections import Counter
 from flask import Flask, send_file, request, make_response
 
-# Configure logging
-logging.basicConfig(filename='app.log', level=logging.INFO, 
-                    format='%(asctime)s %(levelname)s: %(message)s',
-                    datefmt='%Y-%m-%d %H:%M:%S')
-
 app = Flask(__name__)
+
+# Correctly configure logging for Flask
+handler = RotatingFileHandler('app.log', maxBytes=10000, backupCount=1)
+handler.setLevel(logging.INFO)
+formatter = logging.Formatter('%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]')
+handler.setFormatter(formatter)
+app.logger.addHandler(handler)
+app.logger.setLevel(logging.INFO)
 
 # Language colors are shared across themes for consistency
 LANG_COLORS = {
@@ -71,15 +75,15 @@ def fetch_github_stats(username):
     repos_url = f"https://api.github.com/users/{username}/repos?per_page=100&type=owner"
     
     try:
-        logging.info(f"Fetching user data from: {user_url}")
+        app.logger.info(f"Fetching user data from: {user_url}")
         user_response = requests.get(user_url)
-        logging.info(f"User data response status: {user_response.status_code}")
+        app.logger.info(f"User data response status: {user_response.status_code}")
         user_response.raise_for_status()
         user_data = user_response.json()
 
-        logging.info(f"Fetching repos data from: {repos_url}")
+        app.logger.info(f"Fetching repos data from: {repos_url}")
         repos_response = requests.get(repos_url)
-        logging.info(f"Repos data response status: {repos_response.status_code}")
+        app.logger.info(f"Repos data response status: {repos_response.status_code}")
         repos_response.raise_for_status()
         repos_data = repos_response.json()
 
@@ -95,11 +99,11 @@ def fetch_github_stats(username):
             "Public Repos": total_repos,
             "Followers": followers
         }
-        logging.info("Successfully fetched GitHub stats.")
+        app.logger.info("Successfully fetched GitHub stats.")
         return stats
 
     except requests.exceptions.RequestException as e:
-        logging.error(f"Error fetching GitHub data: {e}")
+        app.logger.error(f"Error fetching GitHub data: {e}")
         return None
 
 def create_stats_svg(stats, theme):
@@ -140,9 +144,9 @@ def fetch_top_languages(username):
     '''Fetches and aggregates language data from user\'s repos.'''
     repos_url = f"https://api.github.com/users/{username}/repos?per_page=100&type=owner"
     try:
-        logging.info(f"Fetching repos for languages from: {repos_url}")
+        app.logger.info(f"Fetching repos for languages from: {repos_url}")
         repos_response = requests.get(repos_url)
-        logging.info(f"Repos for languages response status: {repos_response.status_code}")
+        app.logger.info(f"Repos for languages response status: {repos_response.status_code}")
         repos_response.raise_for_status()
         repos = repos_response.json()
         
@@ -151,17 +155,17 @@ def fetch_top_languages(username):
             if repo['fork']:
                 continue
             lang_url = repo["languages_url"]
-            logging.info(f"Fetching language data from: {lang_url}")
+            app.logger.info(f"Fetching language data from: {lang_url}")
             lang_response = requests.get(lang_url)
-            logging.info(f"Language data response status: {lang_response.status_code} for repo {repo['name']}")
+            app.logger.info(f"Language data response status: {lang_response.status_code} for repo {repo['name']}")
             lang_response.raise_for_status()
             for lang, size in lang_response.json().items():
                 lang_stats[lang] += size
         
-        logging.info(f"Successfully fetched and processed language data.")
+        app.logger.info(f"Successfully fetched and processed language data.")
         return lang_stats
     except requests.exceptions.RequestException as e:
-        logging.error(f"Error fetching top languages: {e}")
+        app.logger.error(f"Error fetching top languages: {e}")
         return None
 
 def create_language_donut_chart_svg(langs, theme):
@@ -239,9 +243,9 @@ def index():
 def api_stats():
     username = request.args.get('username')
     theme_name = request.args.get('theme', 'tokyonight')
-    logging.info(f"Received request for stats for username: {username} with theme: {theme_name}")
+    app.logger.info(f"Received request for stats for username: {username} with theme: {theme_name}")
     if not username:
-        logging.warning("Username not provided.")
+        app.logger.warning("Username not provided.")
         return "Please provide a username, e.g., ?username=Domisnnet", 400
 
     theme = THEMES.get(theme_name.lower(), THEMES["tokyonight"])
@@ -258,9 +262,9 @@ def api_stats():
 def api_top_langs():
     username = request.args.get('username')
     theme_name = request.args.get('theme', 'tokyonight')
-    logging.info(f"Received request for top-langs for username: {username} with theme: {theme_name}")
+    app.logger.info(f"Received request for top-langs for username: {username} with theme: {theme_name}")
     if not username:
-        logging.warning("Username not provided for top-langs.")
+        app.logger.warning("Username not provided for top-langs.")
         return "Please provide a username, e.g., ?username=Domisnnet", 400
         
     theme = THEMES.get(theme_name.lower(), THEMES["tokyonight"])
