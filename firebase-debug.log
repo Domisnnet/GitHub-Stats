@@ -1,0 +1,52 @@
+[debug] [2025-12-09T18:55:12.799Z] ----------------------------------------------------------------------
+[debug] [2025-12-09T18:55:12.802Z] Command:       /nix/store/ws50yvm6vzlzf7jzz6n7xh4szddrack1-nodejs-20.19.1/bin/node /home/user/.global_modules/bin/firebase deploy --only functions,hosting
+[debug] [2025-12-09T18:55:12.802Z] CLI Version:   14.27.0
+[debug] [2025-12-09T18:55:12.803Z] Platform:      linux
+[debug] [2025-12-09T18:55:12.803Z] Node Version:  v20.19.1
+[debug] [2025-12-09T18:55:12.803Z] Time:          Tue Dec 09 2025 18:55:12 GMT+0000 (Coordinated Universal Time)
+[debug] [2025-12-09T18:55:12.803Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2025-12-09T18:55:13.220Z] Checked if tokens are valid: true, expires at: 1765310103200
+[debug] [2025-12-09T18:55:13.220Z] Checked if tokens are valid: true, expires at: 1765310103200
+[debug] [2025-12-09T18:55:13.225Z] >>> [apiv2][query] GET https://monospace-pa.googleapis.com/v1/workspaces/github-stats-68157678 [none]
+[debug] [2025-12-09T18:55:13.773Z] <<< [apiv2][status] GET https://monospace-pa.googleapis.com/v1/workspaces/github-stats-68157678 200
+[debug] [2025-12-09T18:55:13.774Z] <<< [apiv2][body] GET https://monospace-pa.googleapis.com/v1/workspaces/github-stats-68157678 {"workspaceId":"github-stats-68157678","name":"GitHub Stats","workspaceRedirectUrl":"firebase-github-stats-1765286686881.cluster-c72u3gwiofapkvxrcwjq5zllcu.cloudworkstations.dev","status":"WORKSPACE_STATUS_RUNNING","lastAccessDatetime":"2025-12-09T16:57:25.723842Z","workspaceTemplate":"WORKSPACE_TEMPLATE_BLANK_WEB","owner":"SELF","serviceAccountEmail":"msp-8215225175027885337@monospace-per-ws-sa-1.iam.gserviceaccount.com","enableNix":true,"ownerEmail":"dominique.goncalves61@gmail.com","workspaceImageUrl":"https://www.gstatic.com/monospace/231115/logo_python.svg","templateArgs":"{\"packageManager\":\"pip\",\"type\":\"web\"}","templateRepoUrl":"file:///usr/local/monospace/templates/public/python-flask","workstationAccessToken":"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczovL2Nsb3VkLmdvb2dsZS5jb20vd29ya3N0YXRpb25zIiwiYXVkIjoiZmlyZWJhc2UtZ2l0aHViLXN0YXRzLTE3NjUyODY2ODY4ODEuY2x1c3Rlci1jNzJ1M2d3aW9mYXBrdnhyY3dqcTV6bGxjdS5jbG91ZHdvcmtzdGF0aW9ucy5kZXYiLCJpYXQiOjE3NjUzMDY1MTMsImV4cCI6MTc2NTM5MjkxM30.WljbFMIRNavlpufr4p4ecGnjkHlYKOgIgc6KKqZsKGvXtJfiywyMOLmnjPfwCRbXvlIkjHAubDSLFzQN_zNhMTFK76qAyCYpdj-QB-BcYg9qD7cCi2CDkJGvT5zYd2EMoAgpMFWuKxWTbnrfOqWbTwDJOPifuRGABf5t8PIHuI9kKsmXtyZaDxXjHwCqZrKzxmKbSzkbUtbi6e7cjJoHr29PXxPAUUP8-65RLOf0rJWlHqNPGKEEDG1FatrDgyfmwHS0fLTxBlOUkVIk3aey0i1tsaqlQpZsuEGQdyed4kFuWFctEKO1l3MDYVqTmlTj8-7QO1VLz1S5B4Jmmf8hMg"}
+[debug] [2025-12-09T18:55:13.778Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/userinfo.email"]
+[debug] [2025-12-09T18:55:13.778Z] > authorizing via signed-in user (dominique.goncalves61@gmail.com)
+[debug] [2025-12-09T18:55:13.779Z] [iam] checking project github-stats-68157678 for permissions ["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2025-12-09T18:55:13.780Z] Checked if tokens are valid: true, expires at: 1765310103200
+[debug] [2025-12-09T18:55:13.780Z] Checked if tokens are valid: true, expires at: 1765310103200
+[debug] [2025-12-09T18:55:13.780Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/github-stats-68157678:testIamPermissions [none]
+[debug] [2025-12-09T18:55:13.780Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/github-stats-68157678:testIamPermissions x-goog-quota-user=projects/github-stats-68157678
+[debug] [2025-12-09T18:55:13.780Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/github-stats-68157678:testIamPermissions {"permissions":["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2025-12-09T18:55:14.014Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/github-stats-68157678:testIamPermissions 200
+[debug] [2025-12-09T18:55:14.014Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/github-stats-68157678:testIamPermissions {}
+[debug] [2025-12-09T18:55:14.016Z] [iam] error while checking permissions, command may fail: Authorization failed. This account is missing the following required permissions on project github-stats-68157678:
+
+  cloudfunctions.functions.create
+  cloudfunctions.functions.delete
+  cloudfunctions.functions.get
+  cloudfunctions.functions.list
+  cloudfunctions.functions.update
+  cloudfunctions.operations.get
+  firebase.projects.get
+  firebasehosting.sites.update
+[debug] [2025-12-09T18:55:14.017Z] Checked if tokens are valid: true, expires at: 1765310103200
+[debug] [2025-12-09T18:55:14.017Z] Checked if tokens are valid: true, expires at: 1765310103200
+[debug] [2025-12-09T18:55:14.017Z] >>> [apiv2][query] POST https://iam.googleapis.com/v1/projects/github-stats-68157678/serviceAccounts/github-stats-68157678@appspot.gserviceaccount.com:testIamPermissions [none]
+[debug] [2025-12-09T18:55:14.017Z] >>> [apiv2][body] POST https://iam.googleapis.com/v1/projects/github-stats-68157678/serviceAccounts/github-stats-68157678@appspot.gserviceaccount.com:testIamPermissions {"permissions":["iam.serviceAccounts.actAs"]}
+[debug] [2025-12-09T18:55:14.145Z] <<< [apiv2][status] POST https://iam.googleapis.com/v1/projects/github-stats-68157678/serviceAccounts/github-stats-68157678@appspot.gserviceaccount.com:testIamPermissions 404
+[debug] [2025-12-09T18:55:14.145Z] <<< [apiv2][body] POST https://iam.googleapis.com/v1/projects/github-stats-68157678/serviceAccounts/github-stats-68157678@appspot.gserviceaccount.com:testIamPermissions {"error":{"code":404,"message":"Unknown service account","status":"NOT_FOUND"}}
+[debug] [2025-12-09T18:55:14.147Z] [functions] service account IAM check errored, deploy may fail: Request to https://iam.googleapis.com/v1/projects/github-stats-68157678/serviceAccounts/github-stats-68157678@appspot.gserviceaccount.com:testIamPermissions had HTTP Error: 404, Unknown service account {"name":"FirebaseError","children":[],"context":{"body":{"error":{"code":404,"message":"Unknown service account","status":"NOT_FOUND"}},"response":{"statusCode":404}},"exit":1,"message":"Request to https://iam.googleapis.com/v1/projects/github-stats-68157678/serviceAccounts/github-stats-68157678@appspot.gserviceaccount.com:testIamPermissions had HTTP Error: 404, Unknown service account","status":404}
+[debug] [2025-12-09T18:55:14.149Z] Checked if tokens are valid: true, expires at: 1765310103200
+[debug] [2025-12-09T18:55:14.149Z] Checked if tokens are valid: true, expires at: 1765310103200
+[debug] [2025-12-09T18:55:14.149Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/github-stats-68157678 [none]
+[debug] [2025-12-09T18:55:14.427Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/github-stats-68157678 403
+[debug] [2025-12-09T18:55:14.428Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/github-stats-68157678 {"error":{"code":403,"message":"The caller does not have permission","status":"PERMISSION_DENIED"}}
+[debug] [2025-12-09T18:55:14.428Z] Request to https://firebase.googleapis.com/v1beta1/projects/github-stats-68157678 had HTTP Error: 403, The caller does not have permission
+[debug] [2025-12-09T18:55:14.447Z] FirebaseError: Request to https://firebase.googleapis.com/v1beta1/projects/github-stats-68157678 had HTTP Error: 403, The caller does not have permission
+    at responseToError (/home/user/.global_modules/lib/node_modules/firebase-tools/lib/responseToError.js:53:12)
+    at RetryOperation._fn (/home/user/.global_modules/lib/node_modules/firebase-tools/lib/apiv2.js:322:77)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+[error] 
+[error] Error: Failed to get Firebase project github-stats-68157678. Please make sure the project exists and your account has permission to access it.
