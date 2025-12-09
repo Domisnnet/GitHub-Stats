@@ -41,14 +41,14 @@ LANG_COLORS = {
 }
 
 THEMES = {
-    "tokyonight": {
-        "background": "#1a1b27",
-        "title": "#70a5fd",
-        "text": "#a9b1d6",
-        "icon": "#70a5fd",
-        "border": "#414868",
-        "rank_circle_bg": "#414868",
-        "rank_circle_fill": "#70a5fd",
+    "cobalt": {
+        "background": "#0047AB",
+        "title": "#FFC600",
+        "text": "#FFFFFF",
+        "icon": "#FFC600",
+        "border": "#333",
+        "rank_circle_bg": "#333",
+        "rank_circle_fill": "#FFC600",
         "lang_colors": LANG_COLORS,
     },
     "dark": {
@@ -81,6 +81,16 @@ THEMES = {
         "rank_circle_fill": "#fabd2f",
         "lang_colors": LANG_COLORS,
     },
+    "merko": {
+        "background": "#0a0f0d",
+        "title": "#ef553b",
+        "text": "#a2a2a2",
+        "icon": "#ef553b",
+        "border": "#ef553b",
+        "rank_circle_bg": "#2d2d2d",
+        "rank_circle_fill": "#ef553b",
+        "lang_colors": LANG_COLORS,
+    },
     "onedark": {
         "background": "#282c34",
         "title": "#61afef",
@@ -101,27 +111,16 @@ THEMES = {
         "rank_circle_fill": "#fe428e",
         "lang_colors": LANG_COLORS,
     },
-    "merko": {
-        "background": "#0a0f0d",
-        "title": "#ef553b",
-        "text": "#a2a2a2",
-        "icon": "#ef553b",
-        "border": "#ef553b",
-        "rank_circle_bg": "#2d2d2d",
-        "rank_circle_fill": "#ef553b",
+    "tokyonight": {
+        "background": "#1a1b27",
+        "title": "#70a5fd",
+        "text": "#a9b1d6",
+        "icon": "#70a5fd",
+        "border": "#414868",
+        "rank_circle_bg": "#414868",
+        "rank_circle_fill": "#70a5fd",
         "lang_colors": LANG_COLORS,
     },
-    "cobalt": {
-        "background": "#0047AB",
-        "title": "#FFC600",
-        "text": "#FFFFFF",
-        "icon": "#FFC600",
-        "border": "#333",
-        "rank_circle_bg": "#333",
-        "rank_circle_fill": "#FFC600",
-        "lang_colors": LANG_COLORS,
-    },
-
 }
 
 ICONS = {
