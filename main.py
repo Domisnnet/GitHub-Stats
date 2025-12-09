@@ -1,8 +1,14 @@
 import os
 import math
 import requests
+import logging
 from collections import Counter
 from flask import Flask, send_file, request, make_response
+
+# Configure logging
+logging.basicConfig(filename='app.log', level=logging.INFO, 
+                    format='%(asctime)s %(levelname)s: %(message)s',
+                    datefmt='%Y-%m-%d %H:%M:%S')
 
 app = Flask(__name__)
 
@@ -59,18 +65,21 @@ THEMES = {
     }
 }
 
-
 def fetch_github_stats(username):
     '''Fetches user and repository stats from GitHub API.'''
     user_url = f"https://api.github.com/users/{username}"
     repos_url = f"https://api.github.com/users/{username}/repos?per_page=100&type=owner"
     
     try:
+        logging.info(f"Fetching user data from: {user_url}")
         user_response = requests.get(user_url)
+        logging.info(f"User data response status: {user_response.status_code}")
         user_response.raise_for_status()
         user_data = user_response.json()
 
+        logging.info(f"Fetching repos data from: {repos_url}")
         repos_response = requests.get(repos_url)
+        logging.info(f"Repos data response status: {repos_response.status_code}")
         repos_response.raise_for_status()
         repos_data = repos_response.json()
 
@@ -86,18 +95,19 @@ def fetch_github_stats(username):
             "Public Repos": total_repos,
             "Followers": followers
         }
+        logging.info("Successfully fetched GitHub stats.")
         return stats
 
     except requests.exceptions.RequestException as e:
-        print(f"Error fetching GitHub data: {e}")
+        logging.error(f"Error fetching GitHub data: {e}")
         return None
 
 def create_stats_svg(stats, theme):
     '''Creates an SVG image for the GitHub stats.'''
     if not stats:
         return f'''<svg width="450" height="180" xmlns="http://www.w3.org/2000/svg">
-                    <rect width="100%" height="100%" fill="{theme['background']}"/>
-                    <text x="50%" y="50%" fill="#ff4a4a" text-anchor="middle">Failed to fetch GitHub stats</text>
+                    <rect width="100%" height="100%" fill="{theme['background']}" rx="5" ry="5"/>
+                    <text x="50%" y="50%" fill="#ff4a4a" text-anchor="middle" font-family="Arial, sans-serif">Failed to fetch GitHub stats</text>
                   </svg>'''
 
     stat_items_svg = ""
@@ -130,27 +140,37 @@ def fetch_top_languages(username):
     '''Fetches and aggregates language data from user\'s repos.'''
     repos_url = f"https://api.github.com/users/{username}/repos?per_page=100&type=owner"
     try:
+        logging.info(f"Fetching repos for languages from: {repos_url}")
         repos_response = requests.get(repos_url)
+        logging.info(f"Repos for languages response status: {repos_response.status_code}")
         repos_response.raise_for_status()
         repos = repos_response.json()
         
         lang_stats = Counter()
         for repo in repos:
+            if repo['fork']:
+                continue
             lang_url = repo["languages_url"]
+            logging.info(f"Fetching language data from: {lang_url}")
             lang_response = requests.get(lang_url)
+            logging.info(f"Language data response status: {lang_response.status_code} for repo {repo['name']}")
             lang_response.raise_for_status()
             for lang, size in lang_response.json().items():
                 lang_stats[lang] += size
         
+        logging.info(f"Successfully fetched and processed language data.")
         return lang_stats
     except requests.exceptions.RequestException as e:
-        print(f"Error fetching top languages: {e}")
+        logging.error(f"Error fetching top languages: {e}")
         return None
 
 def create_language_donut_chart_svg(langs, theme):
     "Creates a donut chart SVG for top languages."
     if not langs:
-        return f'''<svg width="450" height="180" xmlns="http://www.w3.org/2000/svg"><text x="50%" y="50%" fill="#ff4a4a">Failed to fetch language data</text></svg>'''
+        return f'''<svg width="450" height="180" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="100%" height="100%" fill="{theme['background']}" rx="5" ry="5"/>
+                    <text x="50%" y="50%" fill="#ff4a4a" text-anchor="middle" font-family="Arial, sans-serif">Failed to fetch language data</text>
+                   </svg>'''
 
     total_size = sum(langs.values())
     top_langs = langs.most_common(6)
@@ -179,13 +199,13 @@ def create_language_donut_chart_svg(langs, theme):
         x2_inner = cx + inner_r * math.cos(math.radians(end_angle))
         y2_inner = cy + inner_r * math.sin(math.radians(end_angle))
 
-        color = theme["lang_colors"].get(lang, theme["lang_colors"]["Other"])
+        color = theme["lang_colors"].get(lang, theme["lang_colors"]['Other'])
         
         path_d = f"M {x1_outer} {y1_outer} A {r} {r} 0 {large_arc_flag} 1 {x2_outer} {y2_outer} L {x2_inner} {y2_inner} A {inner_r} {inner_r} 0 {large_arc_flag} 0 {x1_inner} {y1_inner} Z"
         paths.append(f'<path d="{path_d}" fill="{color}" />')
         
         legend_x = 20
-        legend_y = 20 + i * 25
+        legend_y = 50 + i * 20
         legend_items.append(f'''
             <g transform="translate({legend_x}, {legend_y})">
                 <rect width="10" height="10" fill="{color}" rx="2" ry="2"/>
@@ -200,8 +220,8 @@ def create_language_donut_chart_svg(langs, theme):
     svg = f'''
     <svg width="450" height="180" xmlns="http://www.w3.org/2000/svg">
         <rect width="448" height="178" x="1" y="1" rx="5" ry="5" fill="{theme['background']}" stroke="{theme['border']}" stroke-width="2"/>
-        <text x="10" y="35" font-family="Arial" font-size="18" font-weight="bold" fill="{theme['title']}">Top Languages</text>
-        <g transform="translate(150, 0)">
+        <text x="20" y="30" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="{theme['title']}">Top Languages</text>
+        <g transform="translate(200, 0)">
            {" ".join(paths)}
         </g>
         <g>
@@ -211,7 +231,7 @@ def create_language_donut_chart_svg(langs, theme):
     return svg.strip()
 
 
-@app.route("/")
+@app.route('/')
 def index():
     return send_file('src/index.html')
 
@@ -219,7 +239,9 @@ def index():
 def api_stats():
     username = request.args.get('username')
     theme_name = request.args.get('theme', 'tokyonight')
+    logging.info(f"Received request for stats for username: {username} with theme: {theme_name}")
     if not username:
+        logging.warning("Username not provided.")
         return "Please provide a username, e.g., ?username=Domisnnet", 400
 
     theme = THEMES.get(theme_name.lower(), THEMES["tokyonight"])
@@ -236,7 +258,9 @@ def api_stats():
 def api_top_langs():
     username = request.args.get('username')
     theme_name = request.args.get('theme', 'tokyonight')
+    logging.info(f"Received request for top-langs for username: {username} with theme: {theme_name}")
     if not username:
+        logging.warning("Username not provided for top-langs.")
         return "Please provide a username, e.g., ?username=Domisnnet", 400
         
     theme = THEMES.get(theme_name.lower(), THEMES["tokyonight"])
@@ -250,7 +274,7 @@ def api_top_langs():
     return response
 
 def main():
-    app.run(port=int(os.environ.get('PORT', 8080)), host='0.0.0.0')
+    app.run(port=int(os.environ.get('PORT', 8080)), host='0.0.0.0', debug=True)
 
 if __name__ == "__main__":
     main()
