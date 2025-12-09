@@ -8,3 +8,7 @@
 2025-12-09 17:27:56,758 - main - INFO - Fetching repos for top languages of Domisnnet
 2025-12-09 17:27:56,763 - main - INFO - Fetching user data for Domisnnet
 2025-12-09 17:27:59,026 - main - INFO - Fetching repos for Domisnnet
+2025-12-09 17:29:49,756 - main - INFO - Fetching repos for top languages of Domisnnet
+2025-12-09 17:29:49,769 - main - INFO - Fetching user data for Domisnnet
+2025-12-09 17:29:49,909 - main - ERROR - Error fetching GitHub stats: 403 Client Error: rate limit exceeded for url: https://api.github.com/users/Domisnnet
+2025-12-09 17:29:49,917 - main - ERROR - Error fetching top languages: 403 Client Error: rate limit exceeded for url: https://api.github.com/users/Domisnnet/repos?per_page=100&type=owner
