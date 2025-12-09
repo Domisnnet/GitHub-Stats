@@ -68,3 +68,13 @@
 2025-12-09 16:33:08,453 - main - INFO - Returning dummy stats for user: Domisnnet
 2025-12-09 16:37:36,580 - main - INFO - Returning dummy stats for user: Domisnnet
 2025-12-09 16:37:41,528 - main - INFO - Returning dummy stats for user: Domisnnet
+2025-12-09 17:20:24,961 - main - INFO - Fetching repos for top languages of Domisnnet
+2025-12-09 17:20:24,963 - main - INFO - Fetching user data for Domisnnet
+2025-12-09 17:20:25,152 - main - INFO - Fetching repos for Domisnnet
+2025-12-09 17:20:33,660 - main - INFO - Fetching user data for Domisnnet
+2025-12-09 17:20:33,710 - main - INFO - Fetching repos for top languages of Domisnnet
+2025-12-09 17:20:43,672 - main - ERROR - Error fetching GitHub stats: HTTPSConnectionPool(host='api.github.com', port=443): Max retries exceeded with url: /users/Domisnnet (Caused by ConnectTimeoutError(<HTTPSConnection(host='api.github.com', port=443) at 0x7d20dd31a490>, 'Connection to api.github.com timed out. (connect timeout=10)'))
+2025-12-09 17:20:43,727 - main - ERROR - Error fetching top languages: HTTPSConnectionPool(host='api.github.com', port=443): Max retries exceeded with url: /users/Domisnnet/repos?per_page=100&type=owner (Caused by ConnectTimeoutError(<HTTPSConnection(host='api.github.com', port=443) at 0x7d20dd32b210>, 'Connection to api.github.com timed out. (connect timeout=10)'))
+2025-12-09 17:21:18,761 - main - INFO - Fetching repos for top languages of Domisnnet
+2025-12-09 17:21:18,770 - main - INFO - Fetching user data for Domisnnet
+2025-12-09 17:21:18,951 - main - INFO - Fetching repos for Domisnnet
