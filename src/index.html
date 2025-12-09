@@ -1,12 +1,120 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>GitHub Stats</title>
-  </head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub Stats Generator</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f6f8fa;
+            color: #24292e;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        h1 {
+            text-align: center;
+            border-bottom: 1px solid #e1e4e8;
+            padding-bottom: 0.5rem;
+        }
+        form {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        input[type="text"], select {
+            padding: 0.5rem;
+            font-size: 1rem;
+            border: 1px solid #d1d5da;
+            border-radius: 6px;
+            margin-right: 0.5rem;
+        }
+        button {
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+            color: #fff;
+            background-color: #28a745;
+            border: 1px solid rgba(27, 31, 35, .15);
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        #stats-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+        img {
+            max-width: 100%;
+            border: 1px solid #e1e4e8;
+            border-radius: 6px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Gerador de Estatísticas do GitHub</h1>
+    <form id="github-form">
+        <input type="text" id="username" placeholder="Usuário ou URL do GitHub" required>
+        <select id="theme-selector">
+            <option value="tokyonight">Tokyonight</option>
+            <option value="dracula">Dracula</option>
+            <option value="gruvbox">Gruvbox</option>
+            <option value="onedark">One Dark</option>
+        </select>
+        <button type="submit">Gerar Estatísticas</button>
+    </form>
+    <div id="stats-container">
+        <!-- As imagens das estatísticas serão carregadas aqui -->
+    </div>
 
-  <body>
-    <h1>Hello World</h1>
-  </body>
+    <script>
+        document.getElementById('github-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            let usernameInput = document.getElementById('username').value.trim();
+            const selectedTheme = document.getElementById('theme-selector').value;
+
+            // Extrai o nome de usuário de uma URL do GitHub, se aplicável
+            try {
+                const url = new URL(usernameInput);
+                if (url.hostname === 'github.com') {
+                    const pathParts = url.pathname.split('/').filter(part => part);
+                    if (pathParts.length > 0) {
+                        usernameInput = pathParts[0];
+                    }
+                }
+            } catch (e) {
+                const parts = usernameInput.split('/');
+                usernameInput = parts[parts.length - 1];
+            }
+
+            const username = usernameInput;
+
+            if (!username) {
+                return;
+            }
+
+            const statsContainer = document.getElementById('stats-container');
+            statsContainer.innerHTML = ''; // Limpa o conteúdo anterior
+
+            // Criar e adicionar a imagem de estatísticas gerais com o tema selecionado
+            const statsImg = document.createElement('img');
+            statsImg.src = `/api?username=${username}&theme=${selectedTheme}`;
+            statsImg.alt = 'GitHub Stats';
+            statsContainer.appendChild(statsImg);
+
+            // Criar e adicionar a imagem de linguagens mais usadas com o tema selecionado
+            const topLangsImg = document.createElement('img');
+            topLangsImg.src = `/api/top-langs?username=${username}&theme=${selectedTheme}`;
+            topLangsImg.alt = 'Top Languages';
+            statsContainer.appendChild(topLangsImg);
+        });
+    </script>
+</body>
 </html>

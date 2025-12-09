@@ -6,29 +6,59 @@ from flask import Flask, send_file, request, make_response
 
 app = Flask(__name__)
 
-# Tokyonight theme colors and language colors
-THEME = {
-    "background": "#1a1b27",
-    "title": "#70a5fd",
-    "text": "#38bdae",
-    "icon": "#bf91f3",
-    "border": "#414868",
-    "lang_colors": {
-        "Python": "#3572A5",
-        "JavaScript": "#f1e05a",
-        "HTML": "#e34c26",
-        "CSS": "#563d7c",
-        "TypeScript": "#2b7489",
-        "Java": "#b07219",
-        "Shell": "#89e051",
-        "C++": "#f34b7d",
-        "C": "#555555",
-        "PHP": "#4F5D95",
-        "Ruby": "#701516",
-        "Go": "#00ADD8",
-        "Other": "#ededed"
+# Language colors are shared across themes for consistency
+LANG_COLORS = {
+    "Python": "#3572A5",
+    "JavaScript": "#f1e05a",
+    "HTML": "#e34c26",
+    "CSS": "#563d7c",
+    "TypeScript": "#2b7489",
+    "Java": "#b07219",
+    "Shell": "#89e051",
+    "C++": "#f34b7d",
+    "C": "#555555",
+    "PHP": "#4F5D95",
+    "Ruby": "#701516",
+    "Go": "#00ADD8",
+    "Other": "#ededed"
+}
+
+# Definição de múltiplos temas
+THEMES = {
+    "tokyonight": {
+        "background": "#1a1b27",
+        "title": "#70a5fd",
+        "text": "#38bdae",
+        "icon": "#bf91f3",
+        "border": "#414868",
+        "lang_colors": LANG_COLORS
+    },
+    "dracula": {
+        "background": "#282a36",
+        "title": "#ff79c6",
+        "text": "#f8f8f2",
+        "icon": "#bd93f9",
+        "border": "#44475a",
+        "lang_colors": LANG_COLORS
+    },
+    "gruvbox": {
+        "background": "#282828",
+        "title": "#fabd2f",
+        "text": "#ebdbb2",
+        "icon": "#d3869b",
+        "border": "#504945",
+        "lang_colors": LANG_COLORS
+    },
+    "onedark": {
+        "background": "#282c34",
+        "title": "#61afef",
+        "text": "#abb2bf",
+        "icon": "#c678dd",
+        "border": "#3f444f",
+        "lang_colors": LANG_COLORS
     }
 }
+
 
 def fetch_github_stats(username):
     '''Fetches user and repository stats from GitHub API.'''
@@ -66,7 +96,7 @@ def create_stats_svg(stats, theme):
     '''Creates an SVG image for the GitHub stats.'''
     if not stats:
         return f'''<svg width="450" height="180" xmlns="http://www.w3.org/2000/svg">
-                    <rect width="100%" height="100%" fill="#{theme['background']}"/>
+                    <rect width="100%" height="100%" fill="{theme['background']}"/>
                     <text x="50%" y="50%" fill="#ff4a4a" text-anchor="middle">Failed to fetch GitHub stats</text>
                   </svg>'''
 
@@ -76,7 +106,7 @@ def create_stats_svg(stats, theme):
     for key, value in list(stats.items())[1:]: # Skip name
         stat_items_svg += f'''
         <g transform="translate(25, {y_position})">
-            <text x="25" y="15" font-family="Arial, sans-serif" font-size="14" fill="#{theme['text']}">
+            <text x="25" y="15" font-family="Arial, sans-serif" font-size="14" fill="{theme['text']}">
                 <tspan font-weight="bold">{key}:</tspan> {value}
             </tspan>
         </g>
@@ -85,9 +115,9 @@ def create_stats_svg(stats, theme):
 
     svg = f'''
     <svg width="450" height="180" xmlns="http://www.w3.org/2000/svg">
-        <rect width="448" height="178" x="1" y="1" rx="5" ry="5" fill="#{theme['background']}" stroke="#{theme['border']}" stroke-width="2"/>
+        <rect width="448" height="178" x="1" y="1" rx="5" ry="5" fill="{theme['background']}" stroke="{theme['border']}" stroke-width="2"/>
         <g>
-            <text x="25" y="35" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#{theme['title']}">
+            <text x="25" y="35" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="{theme['title']}">
                 {stats['name']}\'s GitHub Stats
             </text>
         </g>
@@ -159,7 +189,7 @@ def create_language_donut_chart_svg(langs, theme):
         legend_items.append(f'''
             <g transform="translate({legend_x}, {legend_y})">
                 <rect width="10" height="10" fill="{color}" rx="2" ry="2"/>
-                <text x="15" y="10" font-family="Arial, sans-serif" font-size="12" fill="#{theme['text']}">
+                <text x="15" y="10" font-family="Arial, sans-serif" font-size="12" fill="{theme['text']}">
                     {lang} ({percent:.1f}%)
                 </text>
             </g>
@@ -169,8 +199,8 @@ def create_language_donut_chart_svg(langs, theme):
 
     svg = f'''
     <svg width="450" height="180" xmlns="http://www.w3.org/2000/svg">
-        <rect width="448" height="178" x="1" y="1" rx="5" ry="5" fill="#{theme['background']}" stroke="#{theme['border']}" stroke-width="2"/>
-        <text x="10" y="35" font-family="Arial" font-size="18" font-weight="bold" fill="#{theme['title']}">Top Languages</text>
+        <rect width="448" height="178" x="1" y="1" rx="5" ry="5" fill="{theme['background']}" stroke="{theme['border']}" stroke-width="2"/>
+        <text x="10" y="35" font-family="Arial" font-size="18" font-weight="bold" fill="{theme['title']}">Top Languages</text>
         <g transform="translate(150, 0)">
            {" ".join(paths)}
         </g>
@@ -188,11 +218,13 @@ def index():
 @app.route("/api")
 def api_stats():
     username = request.args.get('username')
+    theme_name = request.args.get('theme', 'tokyonight')
     if not username:
         return "Please provide a username, e.g., ?username=Domisnnet", 400
 
+    theme = THEMES.get(theme_name.lower(), THEMES["tokyonight"])
     stats = fetch_github_stats(username)
-    svg_content = create_stats_svg(stats, THEME)
+    svg_content = create_stats_svg(stats, theme)
     
     response = make_response(svg_content)
     response.headers['Content-Type'] = 'image/svg+xml'
@@ -203,11 +235,13 @@ def api_stats():
 @app.route("/api/top-langs")
 def api_top_langs():
     username = request.args.get('username')
+    theme_name = request.args.get('theme', 'tokyonight')
     if not username:
         return "Please provide a username, e.g., ?username=Domisnnet", 400
         
+    theme = THEMES.get(theme_name.lower(), THEMES["tokyonight"])
     langs = fetch_top_languages(username)
-    svg_content = create_language_donut_chart_svg(langs, THEME)
+    svg_content = create_language_donut_chart_svg(langs, theme)
     
     response = make_response(svg_content)
     response.headers['Content-Type'] = 'image/svg+xml'
