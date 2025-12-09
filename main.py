@@ -136,10 +136,10 @@ def create_language_donut_chart_svg(langs, theme_name="tokyonight"):
         x2_outer, y2_outer = 225 + 50 * math.cos(math.radians(end_angle)), 90 + 50 * math.sin(math.radians(end_angle))
         x1_inner, y1_inner = 225 + 30 * math.cos(math.radians(start_angle)), 90 + 30 * math.sin(math.radians(start_angle))
         x2_inner, y2_inner = 225 + 30 * math.cos(math.radians(end_angle)), 90 + 30 * math.sin(math.radians(end_angle))
-        color = theme.get("lang_colors", {}).get(lang, "#ededed")
+        color = LANG_COLORS.get(lang, "#ededed")
         path_d = f"M {x1_outer} {y1_outer} A 50 50 0 {large_arc_flag} 1 {x2_outer} {y2_outer} L {x2_inner} {y2_inner} A 30 30 0 {large_arc_flag} 0 {x1_inner} {y1_inner} Z"
         paths.append(f'<path d="{path_d}" fill="{color}" />')
-        legend_items += f'<g transform="translate(20, {50 + i * 20})"><rect width="10" height="10" fill="{color}" rx="2" ry="2"/><text x="15" y="10" font-family="Arial, sans-serif" font-size="12" fill="{theme["text"]}">'{lang} ({percent:.1f}%)</text></g>'
+        legend_items += f'<g transform="translate(20, {50 + i * 20})"><rect width="10" height="10" fill="{color}" rx="2" ry="2"/><text x="15" y="10" font-family="Arial, sans-serif" font-size="12" fill="{theme["text"]}"> {lang} ({percent:.1f}%)</text></g>'
         start_angle = end_angle
     return f'''
     <svg width="450" height="180" xmlns="http://www.w3.org/2000/svg">
