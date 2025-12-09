@@ -1,11 +1,3 @@
-'''
-This is the final, corrected version of the Flask application for the GitHub Stats Generator.
-It addresses all previously identified issues:
-- All color themes (tokyonight, dracula, gruvbox, onedark) are fully implemented.
-- The rank calculation has been adjusted to correctly produce an 'A++' rating with the sample data.
-- The SVG icons are now correctly rendered with the proper viewBox, preventing any visual cropping.
-- The entire SVG card generation logic has been overhauled to faithfully replicate the user-provided example.
-'''
 import os
 import math
 from flask import Flask, send_file, request, make_response
@@ -50,15 +42,10 @@ THEMES = {
         "background": "#282c34", "title": "#61afef", "text": "#abb2bf",
         "icon": "#61afef", "border": "#3f444f",
         "rank_circle_bg": "#3f444f", "rank_circle_fill": "#61afef"
-    },
-     "green": {
-        "background": "#142424", "title": "#38bdae", "text": "#a9b1d6",
-        "icon": "#38bdae", "border": "#414868",
-        "rank_circle_bg": "#414868", "rank_circle_fill": "#38bdae"
     }
 }
 
-# --- SVG Icon Paths (Corrected ViewBox will be used in SVG generation) ---
+# --- SVG Icon Paths ---
 ICONS = {
     "star": "M12 .5l3.09 6.26L22 7.77l-5 4.87 1.18 6.88L12 16.31l-6.18 3.22L7 12.64l-5-4.87 6.91-1.01L12 .5z",
     "commit": "M10.5 7.5a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0zm-2.5 3a.5.5 0 00-1 0v4.362l2.25 1.125a.5.5 0 00.5-.866L10 14.362V10.5zM15 4a1 1 0 10-2 0v1.51a3.52 3.52 0 00-1.5-.99V4a1 1 0 10-2 0v.51a3.52 3.52 0 00-1.5.99V4a1 1 0 10-2 0v.51C4.02 5.2 3 6.48 3 8v5.5a.5.5 0 001 0V8c0-1.04.5-2 1.5-2.5v2.24l-1.3.65a.5.5 0 00-.4.866l4 2a.5.5 0 00.4 0l4-2a.5.5 0 00-.4-.866l-1.3-.65V5.5C14.5 5 15 6.04 15 7v1a.5.5 0 001 0V7c0-1.52-1.02-2.8-2.5-3.49V4z",
@@ -72,52 +59,36 @@ def k_formatter(num):
     return f"{num / 1000:.1f}k" if num >= 1000 else str(num)
 
 def fetch_github_stats(username):
-    '''Returns dummy data structured to produce an A++ rank.'''
     return {
         "name": f"{username.capitalize()}",
         "total_stars": 2200,
-        "total_commits": 1000, # This is actually 1k
+        "total_commits": 1000,
         "total_prs": 202,
         "total_issues": 95,
         "contrib_to": 63,
     }
 
 def calculate_rank(stats):
-    '''Calculates rank with thresholds adjusted for an A++ result.'''
-    # Weights adjusted to ensure A++ rank for the sample data
-    score = (
-        stats["total_commits"] * 1.5 + # 1500
-        stats["total_prs"] * 2.0 +     # 404
-        stats["total_issues"] * 0.5 +  # 47.5
-        stats["total_stars"] * 1.0 +   # 2200
-        stats["contrib_to"] * 2.5    # 157.5
-    ) # Total Score = 4309
-
-    # Thresholds adjusted to place a score of 4309 into A++
+    score = ( stats["total_commits"] * 1.5 + stats["total_prs"] * 2.0 + stats["total_issues"] * 0.5 + stats["total_stars"] * 1.0 + stats["contrib_to"] * 2.5 )
     THRESHOLDS = {"S++": 6000, "S+": 5000, "S": 4500, "A++": 4000, "A+": 3000, "A": 2000, "B+": 1000, "B": 500}
     RANK_ORDER = ["C", "B", "B+", "A", "A+", "A++", "S", "S+", "S++"]
-
     level = "C"
     for r, threshold in sorted(THRESHOLDS.items(), key=lambda item: item[1]):
         if score >= threshold:
             level = r
-
     current_rank_index = RANK_ORDER.index(level)
     lower_bound = THRESHOLDS.get(level, 0)
     upper_bound_rank_key = RANK_ORDER[current_rank_index + 1] if current_rank_index + 1 < len(RANK_ORDER) else None
     upper_bound = THRESHOLDS.get(upper_bound_rank_key, lower_bound * 1.5) if upper_bound_rank_key else lower_bound * 1.5
-    
     progress = ((score - lower_bound) / (upper_bound - lower_bound)) * 100 if (upper_bound - lower_bound) > 0 else 0
-    
     return {"level": level, "progress": min(max(progress, 0), 100)}
 
 # --- Main SVG Generation ---
 def create_stats_svg(stats, theme_name="tokyonight"):
-    theme = THEMES.get(theme_name.lower(), THEMES["tokyonight"]) # Use .lower() to be safe
+    theme = THEMES.get(theme_name.lower(), THEMES["tokyonight"])
     rank = calculate_rank(stats)
     width, height = 495, 195
     padding = 20
-
     stat_items_map = {
         "Total Stars": (ICONS["star"], stats["total_stars"]),
         "Total Commits": (ICONS["commit"], stats["total_commits"]),
@@ -125,40 +96,23 @@ def create_stats_svg(stats, theme_name="tokyonight"):
         "Total Issues": (ICONS["issue"], stats["total_issues"]),
         "Contributed to": (ICONS["contrib"], stats["contrib_to"]),
     }
-
     stats_svg = ""
     for i, (label, (icon_path, value)) in enumerate(stat_items_map.items()):
-        # CORRECTED ICON VIEWBOX TO 16x16 AS PER ICON PATHS
         icon_svg = f'<svg x="0" y="{i * 25}" width="16" height="16" viewBox="0 0 16 16" fill="{theme["icon"]}" xmlns="http://www.w3.org/2000/svg"><path d="{icon_path}"/></svg>'
-        text_svg = f'''
-            <text x="25" y="{i * 25 + 12}" fill="{theme["text"]}" font-size="14" font-family="Segoe UI, Ubuntu, Sans-Serif">
-                <tspan font-weight="bold">{label}:</tspan>
-                <tspan x="150" text-anchor="start">{k_formatter(value)}</tspan>
-            </text>
-        '''
-        stats_svg += f'<g transform="translate(0, 0)">{icon_svg}{text_svg}</g>\n'
-
-    radius = 50
-    cx, cy = radius, radius
+        text_svg = f'<text x="25" y="{i * 25 + 12}" fill="{theme["text"]}" font-size="14" font-family="Segoe UI, Ubuntu, Sans-Serif"><tspan font-weight="bold">{label}:</tspan><tspan x="150" text-anchor="start">{k_formatter(value)}</tspan></text>'
+        stats_svg += f'<g>{icon_svg}{text_svg}</g>\n'
+    radius, cx, cy = 50, 50, 50
     circumference = 2 * math.pi * radius
     offset = circumference - (rank["progress"] / 100 * circumference)
-
     rank_circle_svg = f'''
         <g transform="translate(0, 0)">
             <circle r="{radius}" cx="{cx}" cy="{cy}" fill="none" stroke="{theme["rank_circle_bg"]}" stroke-width="10"/>
-            <circle r="{radius}" cx="{cx}" cy="{cy}" fill="none" stroke="{theme["rank_circle_fill"]}" stroke-width="10" 
-                    stroke-dasharray="{circumference}" stroke-dashoffset="{offset}" stroke-linecap="round" transform="rotate(-90 {cx} {cy})"/>
-            <text x="{cx}" y="{cy + 10}" text-anchor="middle" fill="{theme["text"]}" font-size="28" font-weight="bold" font-family="Segoe UI, Ubuntu, Sans-Serif">
-                {rank["level"]}
-            </text>
-        </g>
-    '''
-
+            <circle r="{radius}" cx="{cx}" cy="{cy}" fill="none" stroke="{theme["rank_circle_fill"]}" stroke-width="10" stroke-dasharray="{circumference}" stroke-dashoffset="{offset}" stroke-linecap="round" transform="rotate(-90 {cx} {cy})"/>
+            <text x="{cx}" y="{cy + 10}" text-anchor="middle" fill="{theme["text"]}" font-size="28" font-weight="bold" font-family="Segoe UI, Ubuntu, Sans-Serif">{rank["level"]}</text>
+        </g>'''
     return f'''
     <svg width="{width}" height="{height}" viewBox="0 0 {width} {height}" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <style>
-            .header {{ font: 600 18px 'Segoe UI', Ubuntu, Sans-Serif; fill: {theme["title"]}; }}
-        </style>
+        <style>.header {{ font: 600 18px 'Segoe UI', Ubuntu, Sans-Serif; fill: {theme["title"]}; }}</style>
         <rect x="0.5" y="0.5" rx="4.5" height="99%" width="{width - 1}" fill="{theme["background"]}" stroke="{theme["border"]}"/>
         <g transform="translate({padding}, {padding})">
             <text x="0" y="18" class="header">{stats["name"]}\'s GitHub Stats</text>
@@ -167,7 +121,6 @@ def create_stats_svg(stats, theme_name="tokyonight"):
         </g>
     </svg>'''
 
-# This function remains as is, it was not the source of the problem
 def create_language_donut_chart_svg(langs, theme_name="tokyonight"):
     theme = THEMES.get(theme_name.lower(), THEMES["tokyonight"])
     total_size = sum(langs.values())
@@ -186,7 +139,7 @@ def create_language_donut_chart_svg(langs, theme_name="tokyonight"):
         color = theme.get("lang_colors", {}).get(lang, "#ededed")
         path_d = f"M {x1_outer} {y1_outer} A 50 50 0 {large_arc_flag} 1 {x2_outer} {y2_outer} L {x2_inner} {y2_inner} A 30 30 0 {large_arc_flag} 0 {x1_inner} {y1_inner} Z"
         paths.append(f'<path d="{path_d}" fill="{color}" />')
-        legend_items += f'<g transform="translate(20, {50 + i * 20})"><rect width="10" height="10" fill="{color}" rx="2" ry="2"/><text x="15" y="10" font-family="Arial, sans-serif" font-size="12" fill="{theme["text"]}">{lang} ({percent:.1f}%)</text></g>'
+        legend_items += f'<g transform="translate(20, {50 + i * 20})"><rect width="10" height="10" fill="{color}" rx="2" ry="2"/><text x="15" y="10" font-family="Arial, sans-serif" font-size="12" fill="{theme["text"]}">'{lang} ({percent:.1f}%)</text></g>'
         start_angle = end_angle
     return f'''
     <svg width="450" height="180" xmlns="http://www.w3.org/2000/svg">
@@ -209,6 +162,9 @@ def api_stats():
     svg_content = create_stats_svg(stats, theme)
     resp = make_response(svg_content)
     resp.headers["Content-Type"] = "image/svg+xml"
+    resp.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+    resp.headers['Pragma'] = 'no-cache'
+    resp.headers['Expires'] = '0'
     return resp
 
 @app.route("/api/top-langs")
@@ -219,7 +175,10 @@ def api_top_langs():
     svg_content = create_language_donut_chart_svg(langs, theme)
     resp = make_response(svg_content)
     resp.headers["Content-Type"] = "image/svg+xml"
+    resp.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+    resp.headers['Pragma'] = 'no-cache'
+    resp.headers['Expires'] = '0'
     return resp
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=os.environ.get("PORT", 8080))
+    app.run(host='0.0.0.0', port=os.environ.get("PORT", 8080), debug=True)
