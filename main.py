@@ -5,7 +5,9 @@ import logging
 from logging.handlers import RotatingFileHandler
 from collections import Counter
 from flask import Flask, send_file, request, make_response
+from dotenv import load_dotenv
 
+load_dotenv()
 app = Flask(__name__)
 
 # Correctly configure logging for Flask
@@ -46,7 +48,7 @@ THEMES = {
     "dracula": {
         "background": "#282a36",
         "title": "#ff79c6",
-        "text": "#f8f8f2",
+        "text": "#ffffff",
         "icon": "#bd93f9",
         "border": "#44475a",
         "lang_colors": LANG_COLORS
@@ -62,7 +64,7 @@ THEMES = {
     "onedark": {
         "background": "#282c34",
         "title": "#61afef",
-        "text": "#abb2bf",
+        "text": "#ffffff",
         "icon": "#c678dd",
         "border": "#3f444f",
         "lang_colors": LANG_COLORS
@@ -70,41 +72,17 @@ THEMES = {
 }
 
 def fetch_github_stats(username):
-    '''Fetches user and repository stats from GitHub API.'''
-    user_url = f"https://api.github.com/users/{username}"
-    repos_url = f"https://api.github.com/users/{username}/repos?per_page=100&type=owner"
-    
-    try:
-        app.logger.info(f"Fetching user data from: {user_url}")
-        user_response = requests.get(user_url)
-        app.logger.info(f"User data response status: {user_response.status_code}")
-        user_response.raise_for_status()
-        user_data = user_response.json()
-
-        app.logger.info(f"Fetching repos data from: {repos_url}")
-        repos_response = requests.get(repos_url)
-        app.logger.info(f"Repos data response status: {repos_response.status_code}")
-        repos_response.raise_for_status()
-        repos_data = repos_response.json()
-
-        total_stars = sum(repo['stargazers_count'] for repo in repos_data)
-        total_forks = sum(repo['forks_count'] for repo in repos_data)
-        total_repos = user_data.get('public_repos', 0)
-        followers = user_data.get('followers', 0)
-
-        stats = {
-            "name": user_data.get('name') or user_data.get('login'),
-            "Total Stars": total_stars,
-            "Total Forks": total_forks,
-            "Public Repos": total_repos,
-            "Followers": followers
-        }
-        app.logger.info("Successfully fetched GitHub stats.")
-        return stats
-
-    except requests.exceptions.RequestException as e:
-        app.logger.error(f"Error fetching GitHub data: {e}")
-        return None
+    """
+    Returns a dummy dictionary with sample GitHub stats to avoid hitting API rate limits.
+    """
+    app.logger.info(f"Returning dummy stats data for user: {username}")
+    return {
+        "name": username,
+        "Total Stars": 123,
+        "Total Forks": 45,
+        "Public Repos": 67,
+        "Followers": 890
+    }
 
 def create_stats_svg(stats, theme):
     '''Creates an SVG image for the GitHub stats.'''
@@ -132,7 +110,7 @@ def create_stats_svg(stats, theme):
         <rect width="448" height="178" x="1" y="1" rx="5" ry="5" fill="{theme['background']}" stroke="{theme['border']}" stroke-width="2"/>
         <g>
             <text x="25" y="35" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="{theme['title']}">
-                {stats['name']}\'s GitHub Stats
+                GitHub Stats
             </text>
         </g>
         {stat_items_svg}
@@ -141,32 +119,19 @@ def create_stats_svg(stats, theme):
     return svg.strip()
 
 def fetch_top_languages(username):
-    '''Fetches and aggregates language data from user\'s repos.'''
-    repos_url = f"https://api.github.com/users/{username}/repos?per_page=100&type=owner"
-    try:
-        app.logger.info(f"Fetching repos for languages from: {repos_url}")
-        repos_response = requests.get(repos_url)
-        app.logger.info(f"Repos for languages response status: {repos_response.status_code}")
-        repos_response.raise_for_status()
-        repos = repos_response.json()
-        
-        lang_stats = Counter()
-        for repo in repos:
-            if repo['fork']:
-                continue
-            lang_url = repo["languages_url"]
-            app.logger.info(f"Fetching language data from: {lang_url}")
-            lang_response = requests.get(lang_url)
-            app.logger.info(f"Language data response status: {lang_response.status_code} for repo {repo['name']}")
-            lang_response.raise_for_status()
-            for lang, size in lang_response.json().items():
-                lang_stats[lang] += size
-        
-        app.logger.info(f"Successfully fetched and processed language data.")
-        return lang_stats
-    except requests.exceptions.RequestException as e:
-        app.logger.error(f"Error fetching top languages: {e}")
-        return None
+    """
+    Returns a dummy Counter object with sample language data to avoid hitting API rate limits.
+    """
+    app.logger.info(f"Returning dummy language data for user: {username}")
+    # This structure (a Counter object) mimics the original function's output
+    return Counter({
+        "Python": 58000,
+        "JavaScript": 22000,
+        "HTML": 15000,
+        "Java": 3000,
+        "Shell": 1500,
+        "CSS": 500
+    })
 
 def create_language_donut_chart_svg(langs, theme):
     "Creates a donut chart SVG for top languages."
@@ -273,7 +238,7 @@ def api_top_langs():
     
     response = make_response(svg_content)
     response.headers['Content-Type'] = 'image/svg+xml'
-    response.headers['Cache-Control'] = 's-maxage=3600, stale-while-revalidate'
+    response.headers['Cache-control'] = 's-maxage=3600, stale-while-revalidate'
     
     return response
 
