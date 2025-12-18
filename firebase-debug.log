@@ -1,0 +1,148 @@
+[debug] [2025-12-18T18:19:32.173Z] ----------------------------------------------------------------------
+[debug] [2025-12-18T18:19:32.178Z] Command:       /nix/store/ws50yvm6vzlzf7jzz6n7xh4szddrack1-nodejs-20.19.1/bin/node /home/user/.global_modules/bin/firebase deploy --only functions
+[debug] [2025-12-18T18:19:32.179Z] CLI Version:   15.0.0
+[debug] [2025-12-18T18:19:32.179Z] Platform:      linux
+[debug] [2025-12-18T18:19:32.179Z] Node Version:  v20.19.1
+[debug] [2025-12-18T18:19:32.179Z] Time:          Thu Dec 18 2025 18:19:32 GMT+0000 (Coordinated Universal Time)
+[debug] [2025-12-18T18:19:32.180Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2025-12-18T18:19:33.587Z] Checked if tokens are valid: true, expires at: 1766084112350
+[debug] [2025-12-18T18:19:33.588Z] Checked if tokens are valid: true, expires at: 1766084112350
+[debug] [2025-12-18T18:19:33.590Z] >>> [apiv2][query] GET https://monospace-pa.googleapis.com/v1/workspaces/github-stats-68157678 [none]
+[debug] [2025-12-18T18:19:34.177Z] <<< [apiv2][status] GET https://monospace-pa.googleapis.com/v1/workspaces/github-stats-68157678 200
+[debug] [2025-12-18T18:19:34.178Z] <<< [apiv2][body] GET https://monospace-pa.googleapis.com/v1/workspaces/github-stats-68157678 {"workspaceId":"github-stats-68157678","name":"GitHub Stats","workspaceRedirectUrl":"firebase-github-stats-1765286686881.cluster-c72u3gwiofapkvxrcwjq5zllcu.cloudworkstations.dev","status":"WORKSPACE_STATUS_RUNNING","lastAccessDatetime":"2025-12-18T17:53:32.469707Z","workspaceTemplate":"WORKSPACE_TEMPLATE_BLANK_WEB","owner":"SELF","serviceAccountEmail":"msp-8215225175027885337@monospace-per-ws-sa-1.iam.gserviceaccount.com","enableNix":true,"ownerEmail":"dominique.goncalves61@gmail.com","workspaceImageUrl":"https://www.gstatic.com/monospace/231115/logo_python.svg","templateArgs":"{\"packageManager\":\"pip\",\"type\":\"web\"}","templateRepoUrl":"file:///usr/local/monospace/templates/public/python-flask","workstationAccessToken":"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczovL2Nsb3VkLmdvb2dsZS5jb20vd29ya3N0YXRpb25zIiwiYXVkIjoiZmlyZWJhc2UtZ2l0aHViLXN0YXRzLTE3NjUyODY2ODY4ODEuY2x1c3Rlci1jNzJ1M2d3aW9mYXBrdnhyY3dqcTV6bGxjdS5jbG91ZHdvcmtzdGF0aW9ucy5kZXYiLCJpYXQiOjE3NjYwODE5NzQsImV4cCI6MTc2NjE2ODM3M30.O4IWFMzK8yF3G7D5MsrOP5KEBK4p4xJdcpLoRhv7-v_fiOYWn8VBwphGcaMiqBsb6qZtOC_IKLX04qHqkK0nuivsZGbvz1LR8WgzVx03VPmK-RPHWNow3aygroix6VQADH2LUmedeCawLszumWm5qbqvBMGvvtOTLtQQjz4Wdi6S1A_HRbwY2nzf6Al9dI1xkp1-eUNo4-YhdCUfL_QyiqWY7N7XHykKzsyPXwOWQxEieud_Uo7CFQVulovaBVv2QxCddm1L6oV-uOrr3rhYYukWHQzsnZoQ6MnELzImvJCJX9DW-w7YVU3At9ifjQY-e3iVyxDEdxjW9GlsxavIOw","firebaseProjectId":"github-stats-68157678-42e04"}
+[debug] [2025-12-18T18:19:34.182Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/userinfo.email"]
+[debug] [2025-12-18T18:19:34.182Z] > authorizing via signed-in user (dominique.goncalves61@gmail.com)
+[debug] [2025-12-18T18:19:34.186Z] [iam] checking project github-stats-68157678-42e04 for permissions ["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get"]
+[debug] [2025-12-18T18:19:34.186Z] Checked if tokens are valid: true, expires at: 1766084112350
+[debug] [2025-12-18T18:19:34.187Z] Checked if tokens are valid: true, expires at: 1766084112350
+[debug] [2025-12-18T18:19:34.187Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/github-stats-68157678-42e04:testIamPermissions [none]
+[debug] [2025-12-18T18:19:34.187Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/github-stats-68157678-42e04:testIamPermissions x-goog-quota-user=projects/github-stats-68157678-42e04
+[debug] [2025-12-18T18:19:34.187Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/github-stats-68157678-42e04:testIamPermissions {"permissions":["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get"]}
+[debug] [2025-12-18T18:19:34.244Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/github-stats-68157678-42e04:testIamPermissions 200
+[debug] [2025-12-18T18:19:34.245Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/github-stats-68157678-42e04:testIamPermissions {"permissions":["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get"]}
+[debug] [2025-12-18T18:19:34.247Z] Checked if tokens are valid: true, expires at: 1766084112350
+[debug] [2025-12-18T18:19:34.247Z] Checked if tokens are valid: true, expires at: 1766084112350
+[debug] [2025-12-18T18:19:34.247Z] >>> [apiv2][query] POST https://iam.googleapis.com/v1/projects/github-stats-68157678-42e04/serviceAccounts/github-stats-68157678-42e04@appspot.gserviceaccount.com:testIamPermissions [none]
+[debug] [2025-12-18T18:19:34.248Z] >>> [apiv2][body] POST https://iam.googleapis.com/v1/projects/github-stats-68157678-42e04/serviceAccounts/github-stats-68157678-42e04@appspot.gserviceaccount.com:testIamPermissions {"permissions":["iam.serviceAccounts.actAs"]}
+[debug] [2025-12-18T18:19:34.332Z] <<< [apiv2][status] POST https://iam.googleapis.com/v1/projects/github-stats-68157678-42e04/serviceAccounts/github-stats-68157678-42e04@appspot.gserviceaccount.com:testIamPermissions 200
+[debug] [2025-12-18T18:19:34.333Z] <<< [apiv2][body] POST https://iam.googleapis.com/v1/projects/github-stats-68157678-42e04/serviceAccounts/github-stats-68157678-42e04@appspot.gserviceaccount.com:testIamPermissions {"permissions":["iam.serviceAccounts.actAs"]}
+[info] 
+[info] === Deploying to 'github-stats-68157678-42e04'...
+[info] 
+[info] i  deploying functions 
+[debug] [2025-12-18T18:19:34.338Z] Checked if tokens are valid: true, expires at: 1766084112350
+[debug] [2025-12-18T18:19:34.338Z] Checked if tokens are valid: true, expires at: 1766084112350
+[debug] [2025-12-18T18:19:34.338Z] >>> [apiv2][query] GET https://cloudresourcemanager.googleapis.com/v1/projects/github-stats-68157678-42e04 [none]
+[debug] [2025-12-18T18:19:34.391Z] <<< [apiv2][status] GET https://cloudresourcemanager.googleapis.com/v1/projects/github-stats-68157678-42e04 200
+[debug] [2025-12-18T18:19:34.392Z] <<< [apiv2][body] GET https://cloudresourcemanager.googleapis.com/v1/projects/github-stats-68157678-42e04 {"projectNumber":"713586637278","projectId":"github-stats-68157678-42e04","lifecycleState":"ACTIVE","name":"Firebase app","labels":{"firebase":"enabled","firebase-core":"disabled"},"createTime":"2025-12-09T19:25:45.352999Z"}
+[info] i  functions: preparing codebase default for deployment 
+[info] i  functions: ensuring required API cloudfunctions.googleapis.com is enabled... 
+[info] i  functions: ensuring required API cloudbuild.googleapis.com is enabled... 
+[info] i  artifactregistry: ensuring required API artifactregistry.googleapis.com is enabled... 
+[debug] [2025-12-18T18:19:34.397Z] Checked if tokens are valid: true, expires at: 1766084112350
+[debug] [2025-12-18T18:19:34.401Z] Checked if tokens are valid: true, expires at: 1766084112350
+[debug] [2025-12-18T18:19:34.401Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/github-stats-68157678-42e04/adminSdkConfig [none]
+[debug] [2025-12-18T18:19:34.655Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/github-stats-68157678-42e04/adminSdkConfig 200
+[debug] [2025-12-18T18:19:34.655Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/github-stats-68157678-42e04/adminSdkConfig {"projectId":"github-stats-68157678-42e04","storageBucket":"github-stats-68157678-42e04.firebasestorage.app"}
+[debug] [2025-12-18T18:19:34.656Z] Checked if tokens are valid: true, expires at: 1766084112350
+[debug] [2025-12-18T18:19:34.657Z] Checked if tokens are valid: true, expires at: 1766084112350
+[debug] [2025-12-18T18:19:34.657Z] >>> [apiv2][query] GET https://runtimeconfig.googleapis.com/v1beta1/projects/github-stats-68157678-42e04/configs [none]
+[debug] [2025-12-18T18:19:34.740Z] <<< [apiv2][status] GET https://runtimeconfig.googleapis.com/v1beta1/projects/github-stats-68157678-42e04/configs 200
+[debug] [2025-12-18T18:19:34.740Z] <<< [apiv2][body] GET https://runtimeconfig.googleapis.com/v1beta1/projects/github-stats-68157678-42e04/configs {}
+[debug] [2025-12-18T18:19:34.745Z] Customer code is not Node
+[debug] [2025-12-18T18:19:34.747Z] Validating python source
+[debug] [2025-12-18T18:19:34.747Z] Building python source
+[info] i  functions: Loading and analyzing source code for codebase default to determine what to deploy 
+[debug] [2025-12-18T18:19:34.751Z] Could not find functions.yaml. Must use http discovery
+[debug] [2025-12-18T18:19:34.757Z] Running command with virtualenv: command=., args=["\"/home/user/github-stats/functions/venv/bin/activate\"","&&","python3.13","-c","\"import firebase_functions; import os; print(os.path.dirname(firebase_functions.__file__))\""]
+[debug] [2025-12-18T18:19:34.812Z] stdout: /home/user/github-stats/functions/venv/lib/python3.13/site-packages/firebase_functions
+
+[debug] [2025-12-18T18:19:34.818Z] Running admin server with args: ["python3.13","\"/home/user/github-stats/functions/venv/lib/python3.13/site-packages/firebase_functions/private/serving.py\""] and env: {"FIREBASE_CONFIG":"{\"projectId\":\"github-stats-68157678-42e04\",\"storageBucket\":\"github-stats-68157678-42e04.firebasestorage.app\"}","GCLOUD_PROJECT":"github-stats-68157678-42e04","GOOGLE_CLOUD_QUOTA_PROJECT":"github-stats-68157678-42e04","ADMIN_PORT":"8081"} in /home/user/github-stats/functions
+[debug] [2025-12-18T18:19:34.820Z] Running command with virtualenv: command=., args=["\"/home/user/github-stats/functions/venv/bin/activate\"","&&","python3.13","\"/home/user/github-stats/functions/venv/lib/python3.13/site-packages/firebase_functions/private/serving.py\""]
+[info]  * Serving Flask app 'serving'
+ * Debug mode: off
+
+[error] WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on http://127.0.0.1:8081
+Press CTRL+C to quit
+
+[error] 127.0.0.1 - - [18/Dec/2025 18:19:35] "GET /__/functions.yaml HTTP/1.1" 200 -
+
+[debug] [2025-12-18T18:19:35.770Z] Got response from /__/functions.yaml endpoints:
+  getItems:
+    availableMemoryMb: null
+    concurrency: null
+    cpu: gcf_gen1
+    entryPoint: getItems
+    httpsTrigger: {}
+    ingressSettings: null
+    labels: {}
+    maxInstances: 10
+    minInstances: null
+    platform: gcfv2
+    secretEnvironmentVariables: []
+    serviceAccountEmail: null
+    timeoutSeconds: null
+params: []
+requiredAPIs: []
+specVersion: v1alpha1
+
+[error] 127.0.0.1 - - [18/Dec/2025 18:19:35] "GET /__/quitquitquit HTTP/1.1" 200 -
+
+[info] i  functions: preparing functions directory for uploading... 
+[info] i  functions: packaged /home/user/github-stats/functions (1.79 KB) for uploading 
+[debug] [2025-12-18T18:19:35.872Z] Checked if tokens are valid: true, expires at: 1766084112350
+[debug] [2025-12-18T18:19:35.873Z] Checked if tokens are valid: true, expires at: 1766084112350
+[debug] [2025-12-18T18:19:35.873Z] >>> [apiv2][query] GET https://cloudfunctions.googleapis.com/v1/projects/github-stats-68157678-42e04/locations/-/functions [none]
+[debug] [2025-12-18T18:19:36.261Z] <<< [apiv2][status] GET https://cloudfunctions.googleapis.com/v1/projects/github-stats-68157678-42e04/locations/-/functions 200
+[debug] [2025-12-18T18:19:36.261Z] <<< [apiv2][body] GET https://cloudfunctions.googleapis.com/v1/projects/github-stats-68157678-42e04/locations/-/functions {}
+[debug] [2025-12-18T18:19:36.262Z] Checked if tokens are valid: true, expires at: 1766084112350
+[debug] [2025-12-18T18:19:36.262Z] Checked if tokens are valid: true, expires at: 1766084112350
+[debug] [2025-12-18T18:19:36.264Z] >>> [apiv2][query] GET https://cloudfunctions.googleapis.com/v2/projects/github-stats-68157678-42e04/locations/-/functions filter=environment%3D%22GEN_2%22
+[debug] [2025-12-18T18:19:36.594Z] <<< [apiv2][status] GET https://cloudfunctions.googleapis.com/v2/projects/github-stats-68157678-42e04/locations/-/functions 200
+[debug] [2025-12-18T18:19:36.594Z] <<< [apiv2][body] GET https://cloudfunctions.googleapis.com/v2/projects/github-stats-68157678-42e04/locations/-/functions {}
+[info] i  functions: ensuring required API run.googleapis.com is enabled... 
+[debug] [2025-12-18T18:19:36.600Z] Checked if tokens are valid: true, expires at: 1766084112350
+[debug] [2025-12-18T18:19:36.600Z] Checked if tokens are valid: true, expires at: 1766084112350
+[info] i  functions: ensuring required API eventarc.googleapis.com is enabled... 
+[debug] [2025-12-18T18:19:36.600Z] Checked if tokens are valid: true, expires at: 1766084112350
+[debug] [2025-12-18T18:19:36.600Z] Checked if tokens are valid: true, expires at: 1766084112350
+[info] i  functions: ensuring required API pubsub.googleapis.com is enabled... 
+[debug] [2025-12-18T18:19:36.600Z] Checked if tokens are valid: true, expires at: 1766084112350
+[debug] [2025-12-18T18:19:36.600Z] Checked if tokens are valid: true, expires at: 1766084112350
+[info] i  functions: ensuring required API storage.googleapis.com is enabled... 
+[debug] [2025-12-18T18:19:36.601Z] Checked if tokens are valid: true, expires at: 1766084112350
+[debug] [2025-12-18T18:19:36.601Z] Checked if tokens are valid: true, expires at: 1766084112350
+[debug] [2025-12-18T18:19:36.601Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/713586637278/services/run.googleapis.com [none]
+[debug] [2025-12-18T18:19:36.601Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/713586637278/services/run.googleapis.com x-goog-quota-user=projects/713586637278
+[debug] [2025-12-18T18:19:36.603Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/713586637278/services/eventarc.googleapis.com [none]
+[debug] [2025-12-18T18:19:36.603Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/713586637278/services/eventarc.googleapis.com x-goog-quota-user=projects/713586637278
+[debug] [2025-12-18T18:19:36.604Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/713586637278/services/pubsub.googleapis.com [none]
+[debug] [2025-12-18T18:19:36.604Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/713586637278/services/pubsub.googleapis.com x-goog-quota-user=projects/713586637278
+[debug] [2025-12-18T18:19:36.605Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/713586637278/services/storage.googleapis.com [none]
+[debug] [2025-12-18T18:19:36.606Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/713586637278/services/storage.googleapis.com x-goog-quota-user=projects/713586637278
+[debug] [2025-12-18T18:19:36.698Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/713586637278/services/pubsub.googleapis.com 200
+[debug] [2025-12-18T18:19:36.698Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/713586637278/services/pubsub.googleapis.com [omitted]
+[info] ✔  functions: required API pubsub.googleapis.com is enabled 
+[debug] [2025-12-18T18:19:36.714Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/713586637278/services/run.googleapis.com 200
+[debug] [2025-12-18T18:19:36.714Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/713586637278/services/run.googleapis.com [omitted]
+[warn] ⚠  functions: missing required API run.googleapis.com. Enabling now... 
+[debug] [2025-12-18T18:19:36.717Z] Checked if tokens are valid: true, expires at: 1766084112350
+[debug] [2025-12-18T18:19:36.717Z] Checked if tokens are valid: true, expires at: 1766084112350
+[debug] [2025-12-18T18:19:36.717Z] >>> [apiv2][query] POST https://serviceusage.googleapis.com/v1/projects/713586637278/services/run.googleapis.com:enable [none]
+[debug] [2025-12-18T18:19:36.717Z] >>> [apiv2][(partial)header] POST https://serviceusage.googleapis.com/v1/projects/713586637278/services/run.googleapis.com:enable x-goog-quota-user=projects/713586637278
+[debug] [2025-12-18T18:19:36.726Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/713586637278/services/storage.googleapis.com 200
+[debug] [2025-12-18T18:19:36.727Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/713586637278/services/storage.googleapis.com [omitted]
+[info] ✔  functions: required API storage.googleapis.com is enabled 
+[debug] [2025-12-18T18:19:36.741Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/713586637278/services/eventarc.googleapis.com 200
+[debug] [2025-12-18T18:19:36.741Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/713586637278/services/eventarc.googleapis.com [omitted]
+[warn] ⚠  functions: missing required API eventarc.googleapis.com. Enabling now... 
+[debug] [2025-12-18T18:19:36.743Z] Checked if tokens are valid: true, expires at: 1766084112350
+[debug] [2025-12-18T18:19:36.743Z] Checked if tokens are valid: true, expires at: 1766084112350
+[debug] [2025-12-18T18:19:36.743Z] >>> [apiv2][query] POST https://serviceusage.googleapis.com/v1/projects/713586637278/services/eventarc.googleapis.com:enable [none]
+[debug] [2025-12-18T18:19:36.743Z] >>> [apiv2][(partial)header] POST https://serviceusage.googleapis.com/v1/projects/713586637278/services/eventarc.googleapis.com:enable x-goog-quota-user=projects/713586637278
+[debug] [2025-12-18T18:19:36.906Z] <<< [apiv2][status] POST https://serviceusage.googleapis.com/v1/projects/713586637278/services/eventarc.googleapis.com:enable 200
+[debug] [2025-12-18T18:19:36.907Z] <<< [apiv2][body] POST https://serviceusage.googleapis.com/v1/projects/713586637278/services/eventarc.googleapis.com:enable [omitted]
+[debug] [2025-12-18T18:19:36.950Z] <<< [apiv2][status] POST https://serviceusage.googleapis.com/v1/projects/713586637278/services/run.googleapis.com:enable 200
+[debug] [2025-12-18T18:19:36.951Z] <<< [apiv2][body] POST https://serviceusage.googleapis.com/v1/projects/713586637278/services/run.googleapis.com:enable [omitted]
